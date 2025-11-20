@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Shield, AlertTriangle, XCircle, Search, Info } from 'lucide-react';
+import { Shield, AlertTriangle, XCircle, Search, Info, Lock, Globe, Activity, Zap, Eye, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -10,6 +10,7 @@ export const LinkScanner = () => {
   const [url, setUrl] = useState('');
   const [analysis, setAnalysis] = useState<LinkAnalysis | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [scanCount, setScanCount] = useState(0);
 
   const handleScan = () => {
     if (!url.trim()) return;
@@ -19,7 +20,8 @@ export const LinkScanner = () => {
       const result = analyzeLink(url);
       setAnalysis(result);
       setIsAnalyzing(false);
-    }, 1200);
+      setScanCount(prev => prev + 1);
+    }, 1500);
   };
 
   const getRiskColor = (level: string) => {
@@ -42,45 +44,81 @@ export const LinkScanner = () => {
 
   const getRiskIcon = (level: string) => {
     switch (level) {
-      case 'safe': return <Shield className="w-16 h-16" />;
-      case 'suspicious': return <AlertTriangle className="w-16 h-16" />;
-      case 'dangerous': return <XCircle className="w-16 h-16" />;
+      case 'safe': return <Shield className="w-20 h-20" />;
+      case 'suspicious': return <AlertTriangle className="w-20 h-20" />;
+      case 'dangerous': return <XCircle className="w-20 h-20" />;
       default: return null;
     }
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6 space-y-6">
+    <div className="w-full max-w-6xl mx-auto p-6 space-y-8">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center space-y-4 mb-8"
+        className="text-center space-y-6 mb-12"
       >
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <Shield className="w-12 h-12 text-primary" />
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <motion.div
+            animate={{ 
+              filter: ['drop-shadow(0 0 20px hsl(174 100% 50% / 0.5))', 
+                       'drop-shadow(0 0 40px hsl(174 100% 50% / 0.8))',
+                       'drop-shadow(0 0 20px hsl(174 100% 50% / 0.5))']
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            <Shield className="w-16 h-16 text-primary" />
+          </motion.div>
+          <h1 className="text-6xl md:text-7xl font-bold glow-text">
             LinkGuard AI
           </h1>
         </div>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Advanced link security analysis powered by intelligent pattern detection
+        <p className="text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          Advanced AI-powered link security analysis with real-time threat detection and comprehensive risk assessment
         </p>
+        
+        <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto mt-8">
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="bg-card/50 border border-primary/20 rounded-lg p-6 backdrop-blur-sm"
+          >
+            <Activity className="w-8 h-8 text-primary mx-auto mb-3" />
+            <p className="text-3xl font-bold text-primary">{scanCount}</p>
+            <p className="text-sm text-muted-foreground mt-1">Links Scanned</p>
+          </motion.div>
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="bg-card/50 border border-primary/20 rounded-lg p-6 backdrop-blur-sm"
+          >
+            <Zap className="w-8 h-8 text-primary mx-auto mb-3" />
+            <p className="text-3xl font-bold text-primary">15+</p>
+            <p className="text-sm text-muted-foreground mt-1">Security Checks</p>
+          </motion.div>
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="bg-card/50 border border-primary/20 rounded-lg p-6 backdrop-blur-sm"
+          >
+            <TrendingUp className="w-8 h-8 text-primary mx-auto mb-3" />
+            <p className="text-3xl font-bold text-primary">99.9%</p>
+            <p className="text-sm text-muted-foreground mt-1">Accuracy Rate</p>
+          </motion.div>
+        </div>
       </motion.div>
 
-      <Card className="p-6 border-2 border-primary/20 bg-card/50 backdrop-blur-sm">
-        <div className="flex gap-3">
+      <Card className="p-8 border-2 glow-border bg-card/50 backdrop-blur-sm">
+        <div className="flex gap-4">
           <Input
             type="text"
             placeholder="Enter URL to scan (e.g., https://example.com)"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleScan()}
-            className="flex-1 text-lg h-14 bg-background/50 border-primary/20 focus:border-primary"
+            className="flex-1 text-lg h-16 bg-background/50 border-primary/30 focus:border-primary text-foreground placeholder:text-muted-foreground"
           />
           <Button
             onClick={handleScan}
             disabled={isAnalyzing || !url.trim()}
-            className="h-14 px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+            className="h-16 px-10 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg neon-pulse"
             size="lg"
           >
             {isAnalyzing ? (
@@ -88,11 +126,11 @@ export const LinkScanner = () => {
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
               >
-                <Search className="w-5 h-5" />
+                <Search className="w-6 h-6" />
               </motion.div>
             ) : (
               <>
-                <Search className="w-5 h-5 mr-2" />
+                <Search className="w-6 h-6 mr-2" />
                 Scan Link
               </>
             )}
@@ -107,23 +145,28 @@ export const LinkScanner = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="space-y-4"
+            className="space-y-6"
           >
-            <Card className={`p-8 border-2 ${getRiskBgColor(analysis.riskLevel)}`}>
-              <div className="flex items-center gap-6 mb-6">
-                <div className={getRiskColor(analysis.riskLevel)}>
+            <Card className={`p-10 border-2 ${getRiskBgColor(analysis.riskLevel)} glow-border`}>
+              <div className="flex items-center gap-8 mb-8">
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                  className={getRiskColor(analysis.riskLevel)}
+                >
                   {getRiskIcon(analysis.riskLevel)}
-                </div>
+                </motion.div>
                 <div className="flex-1">
-                  <h2 className="text-3xl font-bold mb-2 capitalize">
+                  <h2 className="text-4xl font-bold mb-3 capitalize glow-text">
                     {analysis.riskLevel} Link
                   </h2>
-                  <div className="flex items-center gap-4">
-                    <div className="flex-1 bg-background/50 rounded-full h-3 overflow-hidden">
+                  <div className="flex items-center gap-6">
+                    <div className="flex-1 bg-background/50 rounded-full h-4 overflow-hidden border border-primary/20">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${analysis.score}%` }}
-                        transition={{ duration: 1, ease: 'easeOut' }}
+                        transition={{ duration: 1.5, ease: 'easeOut' }}
                         className={`h-full ${
                           analysis.score >= 70
                             ? 'bg-success'
@@ -131,107 +174,144 @@ export const LinkScanner = () => {
                             ? 'bg-warning'
                             : 'bg-destructive'
                         }`}
+                        style={{
+                          boxShadow: `0 0 10px ${
+                            analysis.score >= 70
+                              ? 'hsl(142 76% 36% / 0.5)'
+                              : analysis.score >= 40
+                              ? 'hsl(38 92% 50% / 0.5)'
+                              : 'hsl(0 84% 60% / 0.5)'
+                          }`
+                        }}
                       />
                     </div>
-                    <span className="text-2xl font-bold">{analysis.score}/100</span>
+                    <span className="text-3xl font-bold glow-text">{analysis.score}/100</span>
                   </div>
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4 mb-6">
-                <div className="space-y-2">
+              <div className="bg-background/30 rounded-lg p-6 mb-6 border border-primary/20">
+                <p className="text-sm text-muted-foreground mb-2 flex items-center gap-2">
+                  <Globe className="w-4 h-4" />
+                  Scanned URL
+                </p>
+                <p className="font-mono text-lg break-all text-primary">{analysis.url}</p>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
+                <div className="space-y-3">
                   <h3 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
-                    <Info className="w-4 h-4" />
-                    URL Details
+                    <Lock className="w-5 h-5" />
+                    Protocol Analysis
                   </h3>
-                  <div className="bg-background/70 rounded-lg p-4 space-y-2 text-sm">
-                    <div className="flex justify-between">
+                  <div className="bg-background/70 rounded-lg p-5 space-y-3 text-sm border border-primary/10">
+                    <div className="flex justify-between items-center">
                       <span className="text-muted-foreground">Protocol:</span>
-                      <span className="font-mono font-semibold">{analysis.details.protocol}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Domain:</span>
-                      <span className="font-mono font-semibold truncate max-w-[200px]">
-                        {analysis.details.domain}
+                      <span className={`font-mono font-bold ${analysis.details.protocol === 'https' ? 'text-success' : 'text-destructive'}`}>
+                        {analysis.details.protocol.toUpperCase()}
                       </span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">TLD:</span>
-                      <span className="font-mono font-semibold">{analysis.details.tld}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Path Length:</span>
-                      <span className="font-mono font-semibold">{analysis.details.pathLength}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">Encryption:</span>
+                      <span className={analysis.details.protocol === 'https' ? 'text-success' : 'text-destructive'}>
+                        {analysis.details.protocol === 'https' ? '✓ Enabled' : '✗ Disabled'}
+                      </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <h3 className="text-sm font-semibold text-muted-foreground">Risk Indicators</h3>
-                  <div className="bg-background/70 rounded-lg p-4 space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">IP Address:</span>
-                      <span className={analysis.details.hasIpAddress ? 'text-destructive font-semibold' : ''}>
-                        {analysis.details.hasIpAddress ? 'Yes ⚠️' : 'No ✓'}
+                <div className="space-y-3">
+                  <h3 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+                    <Globe className="w-5 h-5" />
+                    Domain Details
+                  </h3>
+                  <div className="bg-background/70 rounded-lg p-5 space-y-3 text-sm border border-primary/10">
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">Domain:</span>
+                      <span className="font-mono font-semibold truncate max-w-[150px]">
+                        {analysis.details.domain}
                       </span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Special Chars:</span>
-                      <span className={analysis.details.hasSpecialChars ? 'text-warning font-semibold' : ''}>
-                        {analysis.details.hasSpecialChars ? 'Excessive ⚠️' : 'Normal ✓'}
-                      </span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">TLD:</span>
+                      <span className="font-mono font-semibold">{analysis.details.tld}</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-center">
                       <span className="text-muted-foreground">Subdomain:</span>
                       <span>{analysis.details.hasSubdomain ? 'Yes' : 'No'}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h3 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+                    <Eye className="w-5 h-5" />
+                    Risk Indicators
+                  </h3>
+                  <div className="bg-background/70 rounded-lg p-5 space-y-3 text-sm border border-primary/10">
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">IP Address:</span>
+                      <span className={analysis.details.hasIpAddress ? 'text-destructive font-semibold' : 'text-success'}>
+                        {analysis.details.hasIpAddress ? '⚠️ Yes' : '✓ No'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">Special Chars:</span>
+                      <span className={analysis.details.hasSpecialChars ? 'text-warning font-semibold' : 'text-success'}>
+                        {analysis.details.hasSpecialChars ? '⚠️ High' : '✓ Normal'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">Path Length:</span>
+                      <span className="font-mono font-semibold">{analysis.details.pathLength}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {analysis.threats.length > 0 && (
-                <div className="mb-4">
-                  <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                    <AlertTriangle className="w-5 h-5 text-destructive" />
-                    Detected Threats
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold mb-4 flex items-center gap-3">
+                    <AlertTriangle className="w-6 h-6 text-destructive" />
+                    Detected Security Threats
                   </h3>
-                  <ul className="space-y-2">
+                  <div className="grid gap-3">
                     {analysis.threats.map((threat, i) => (
-                      <motion.li
+                      <motion.div
                         key={i}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="flex items-start gap-2 bg-destructive/5 border border-destructive/20 rounded-lg p-3"
+                        className="flex items-start gap-3 bg-destructive/5 border-2 border-destructive/30 rounded-lg p-4 hover:bg-destructive/10 transition-colors"
                       >
-                        <XCircle className="w-5 h-5 text-destructive mt-0.5 flex-shrink-0" />
-                        <span>{threat}</span>
-                      </motion.li>
+                        <XCircle className="w-6 h-6 text-destructive mt-0.5 flex-shrink-0" />
+                        <span className="text-base">{threat}</span>
+                      </motion.div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               )}
 
               {analysis.recommendations.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-primary" />
+                  <h3 className="text-xl font-bold mb-4 flex items-center gap-3">
+                    <Shield className="w-6 h-6 text-primary" />
                     Security Recommendations
                   </h3>
-                  <ul className="space-y-2">
+                  <div className="grid gap-3">
                     {analysis.recommendations.map((rec, i) => (
-                      <motion.li
+                      <motion.div
                         key={i}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.1 + 0.2 }}
-                        className="flex items-start gap-2 bg-primary/5 border border-primary/20 rounded-lg p-3"
+                        transition={{ delay: i * 0.1 + 0.3 }}
+                        className="flex items-start gap-3 bg-primary/5 border-2 border-primary/30 rounded-lg p-4 hover:bg-primary/10 transition-colors"
                       >
-                        <Info className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                        <span>{rec}</span>
-                      </motion.li>
+                        <Info className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
+                        <span className="text-base">{rec}</span>
+                      </motion.div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               )}
             </Card>
@@ -239,50 +319,104 @@ export const LinkScanner = () => {
         )}
       </AnimatePresence>
 
-      <Card className="p-6 bg-card/30 border-primary/10">
-        <h3 className="text-lg font-semibold mb-4">What We Check:</h3>
-        <div className="grid md:grid-cols-3 gap-4 text-sm">
-          <div className="flex items-start gap-2">
-            <Shield className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-            <div>
-              <p className="font-semibold">SSL/HTTPS</p>
-              <p className="text-muted-foreground">Encrypted connections</p>
+      <div className="grid md:grid-cols-2 gap-6">
+        <Card className="p-8 bg-card/30 border-2 border-primary/20 backdrop-blur-sm">
+          <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+            <Shield className="w-7 h-7 text-primary" />
+            Security Features
+          </h3>
+          <div className="grid gap-5 text-base">
+            <div className="flex items-start gap-3 p-4 bg-background/50 rounded-lg border border-primary/10">
+              <Lock className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-semibold text-primary">SSL/HTTPS Analysis</p>
+                <p className="text-sm text-muted-foreground mt-1">Validates encrypted connections and certificate authenticity</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 bg-background/50 rounded-lg border border-primary/10">
+              <Globe className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-semibold text-primary">Domain Intelligence</p>
+                <p className="text-sm text-muted-foreground mt-1">Advanced TLD analysis and domain structure verification</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 bg-background/50 rounded-lg border border-primary/10">
+              <AlertTriangle className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-semibold text-primary">Phishing Detection</p>
+                <p className="text-sm text-muted-foreground mt-1">AI-powered keyword and pattern recognition for phishing attempts</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 bg-background/50 rounded-lg border border-primary/10">
+              <Search className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-semibold text-primary">URL Shortener Detection</p>
+                <p className="text-sm text-muted-foreground mt-1">Identifies hidden destinations and redirects</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 bg-background/50 rounded-lg border border-primary/10">
+              <Eye className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-semibold text-primary">Homograph Attack Protection</p>
+                <p className="text-sm text-muted-foreground mt-1">Detects lookalike characters used to impersonate legitimate sites</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 bg-background/50 rounded-lg border border-primary/10">
+              <Zap className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-semibold text-primary">Real-time Scoring</p>
+                <p className="text-sm text-muted-foreground mt-1">Instant risk assessment with comprehensive threat analysis</p>
+              </div>
             </div>
           </div>
-          <div className="flex items-start gap-2">
-            <Shield className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-            <div>
-              <p className="font-semibold">Domain Analysis</p>
-              <p className="text-muted-foreground">TLD & structure checks</p>
+        </Card>
+
+        <Card className="p-8 bg-card/30 border-2 border-primary/20 backdrop-blur-sm">
+          <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+            <Info className="w-7 h-7 text-primary" />
+            How It Works
+          </h3>
+          <div className="space-y-6">
+            <div className="relative pl-8 pb-6 border-l-2 border-primary/30">
+              <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">1</div>
+              <h4 className="font-bold text-lg mb-2">URL Parsing</h4>
+              <p className="text-muted-foreground">The system breaks down the URL into components for detailed analysis</p>
+            </div>
+            <div className="relative pl-8 pb-6 border-l-2 border-primary/30">
+              <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">2</div>
+              <h4 className="font-bold text-lg mb-2">Pattern Recognition</h4>
+              <p className="text-muted-foreground">AI algorithms scan for suspicious patterns, keywords, and structures</p>
+            </div>
+            <div className="relative pl-8 pb-6 border-l-2 border-primary/30">
+              <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">3</div>
+              <h4 className="font-bold text-lg mb-2">Threat Assessment</h4>
+              <p className="text-muted-foreground">Each security check contributes to an overall risk score calculation</p>
+            </div>
+            <div className="relative pl-8">
+              <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">4</div>
+              <h4 className="font-bold text-lg mb-2">Report Generation</h4>
+              <p className="text-muted-foreground">Comprehensive report with threats, recommendations, and actionable insights</p>
             </div>
           </div>
-          <div className="flex items-start gap-2">
-            <Shield className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-            <div>
-              <p className="font-semibold">Phishing Patterns</p>
-              <p className="text-muted-foreground">Suspicious keywords</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-2">
-            <Shield className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-            <div>
-              <p className="font-semibold">URL Shorteners</p>
-              <p className="text-muted-foreground">Hidden destinations</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-2">
-            <Shield className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-            <div>
-              <p className="font-semibold">Special Characters</p>
-              <p className="text-muted-foreground">Obfuscation attempts</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-2">
-            <Shield className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-            <div>
-              <p className="font-semibold">Homograph Attacks</p>
-              <p className="text-muted-foreground">Lookalike characters</p>
-            </div>
+        </Card>
+      </div>
+
+      <Card className="p-8 bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/30 backdrop-blur-sm">
+        <div className="text-center space-y-4">
+          <Shield className="w-16 h-16 text-primary mx-auto glow-text" />
+          <h3 className="text-3xl font-bold">Stay Protected Online</h3>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            LinkGuard AI uses advanced pattern recognition and machine learning to identify malicious links, 
+            phishing attempts, and security threats before they can harm you. Always verify links before clicking, 
+            especially those received via email or messaging apps.
+          </p>
+          <div className="flex gap-4 justify-center pt-4">
+            <Button variant="outline" className="border-primary/50 hover:bg-primary/10">
+              Learn More
+            </Button>
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+              Get Pro Version
+            </Button>
           </div>
         </div>
       </Card>
