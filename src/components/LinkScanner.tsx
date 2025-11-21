@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Shield, AlertTriangle, XCircle, Search, Info, Lock, Globe, Activity, Zap, Eye, TrendingUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Shield, AlertTriangle, XCircle, Search, Info, Lock, Globe, Activity, Zap, Eye, TrendingUp, FileText, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -411,12 +412,18 @@ export const LinkScanner = () => {
             especially those received via email or messaging apps.
           </p>
           <div className="flex gap-4 justify-center pt-4">
-            <Button variant="outline" className="border-primary/50 hover:bg-primary/10">
-              Learn More
-            </Button>
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-              Get Pro Version
-            </Button>
+            <Link to="/learn-more">
+              <Button variant="outline" className="border-primary/50 hover:bg-primary/10">
+                <FileText className="w-4 h-4 mr-2" />
+                Learn More
+              </Button>
+            </Link>
+            <Link to="/pro-version">
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                <Sparkles className="w-4 h-4 mr-2" />
+                Get Pro Version
+              </Button>
+            </Link>
           </div>
         </div>
       </Card>
