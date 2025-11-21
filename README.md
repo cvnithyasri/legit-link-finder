@@ -1,4 +1,4 @@
-##Legit Link Finder
+#Legit Link Finder
 
 Legit Link Finder is a powerful web-based link analysis system that determines whether a URL is safe or malicious. It uses advanced intelligence techniques to detect phishing patterns, malicious domains, suspicious URL structures, and homograph attacks—helping users stay safe online.
 
