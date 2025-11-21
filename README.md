@@ -1,73 +1,152 @@
-# Welcome to your Lovable project
+Legit Link Finder
 
-## Project info
+Legit Link Finder is a powerful web-based link analysis system that determines whether a URL is safe or malicious. It uses advanced intelligence techniques to detect phishing patterns, malicious domains, suspicious URL structures, and homograph attacks—helping users stay safe online.
 
-**URL**: https://lovable.dev/projects/804128cf-073c-4386-84af-08e1b1071231
+All rights reserved (project generated using Lovable).
 
-## How can I edit this code?
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+📖 Table of Contents
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/804128cf-073c-4386-84af-08e1b1071231) and start prompting.
+About the Project
 
-Changes made via Lovable will be committed automatically to this repo.
+Features
 
-**Use your preferred IDE**
+Tech Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Folder Structure
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Installation
 
-Follow these steps:
+Usage
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Presentation
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+License
 
-# Step 3: Install the necessary dependencies.
-npm i
+Contact
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+
+
+---
+
+🧩 About the Project
+
+Legit Link Finder evaluates the legitimacy of any URL by performing a multi-layered analysis. From URL parsing to domain intelligence and phishing detection, the system assigns a real-time safety score and provides insights on why a link may be harmful or safe.
+
+This tool is built to simplify online safety for everyday users by providing accurate threat assessments instantly.
+
+
+---
+
+✨ Features
+
+🔍 HTTPS Analysis – checks SSL validity & secure protocol usage
+
+🌐 Domain Intelligence – evaluates domain age, structure, and trust factors
+
+🎣 Phishing Detection – detects patterns commonly used in phishing attacks
+
+🔗 URL Shortener Detection – expands shortened links for deeper inspection
+
+🆔 Homograph Attack Protection – identifies deceptive Unicode characters
+
+⚡ Real-time Scoring – generates a safety score instantly
+
+🧠 Pattern Recognition – detects suspicious URL structures
+
+🛡 Threat Assessment – highlights potential risks with explanations
+
+📄 Report Generation – summarizes findings in a readable format
+
+🧪 Problem Mode – alternate version for testing or debugging
+
+
+
+---
+
+🛠 Tech Stack
+
+Framework: Vite
+
+Frontend: React, TypeScript
+
+Styling: Tailwind CSS
+
+Component Library: shadcn/ui
+
+
+
+---
+
+📁 Folder Structure
+
+legit-link-finder/
+│── public/
+│── src/
+│   ├── components/
+│   ├── pages/
+│   ├── utils/
+│   ├── hooks/
+│   ├── lib/
+│── package.json
+│── tsconfig.json
+│── vite.config.ts
+│── README.md
+
+
+---
+
+⚙️ Installation
+
+1. Clone the repository
+
+git clone https://github.com/cvnithyasri/legit-link-finder.git
+
+2. Navigate into the project
+
+cd legit-link-finder
+
+3. Install dependencies
+
+npm install
+# or
+yarn install
+
+
+---
+
+▶️ Usage
+
+Start the development server
+
 npm run dev
-```
 
-**Edit a file directly in GitHub**
+Build for production
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+npm run build
 
-**Use GitHub Codespaces**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+🎥 Presentation
 
-This project is built with:
+A complete walkthrough of how Legit Link Finder works:
+🔗 View Presentation:
+https://www.popai.pro/ppt-share?shareKey=27880ebf59a9ae491bda0b5dc0fb3a4228a522ddb9b27a6c159b9375093a1196&utm_source=presentationsharepage
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/804128cf-073c-4386-84af-08e1b1071231) and click on Share -> Publish.
+📄 License
 
-## Can I connect a custom domain to my Lovable project?
+This project is licensed with all rights reserved due to Lovable’s terms.
 
-Yes, you can!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+📞 Contact
+
+GitHub Profile: https://github.com/cvnithyasri
+Project Link: https://github.com/cvnithyasri/legit-link-finder
