@@ -26,6 +26,35 @@ export const analyzeLink = (url: string): LinkAnalysis => {
   const recommendations: string[] = [];
   let score = 100;
 
+  // Trim whitespace
+  url = url.trim();
+
+  // Check if input looks like a URL at all
+  const urlPattern = /^(https?:\/\/|www\.)/i;
+  const domainPattern = /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+  
+  // If it doesn't start with http://, https://, or www., and isn't a valid domain, reject it
+  if (!urlPattern.test(url) && !domainPattern.test(url)) {
+    return {
+      url,
+      isValid: false,
+      riskLevel: 'dangerous',
+      score: 0,
+      threats: ['Not a valid link - please enter a URL starting with http://, https://, www., or a valid domain name'],
+      recommendations: ['Enter a proper URL format (e.g., https://example.com or www.example.com)'],
+      details: {
+        protocol: '',
+        domain: '',
+        hasSubdomain: false,
+        tld: '',
+        pathLength: 0,
+        hasSpecialChars: false,
+        hasIpAddress: false,
+        domainAge: 'Unknown',
+      },
+    };
+  }
+
   // Basic URL validation
   let parsedUrl: URL;
   try {
@@ -33,14 +62,21 @@ export const analyzeLink = (url: string): LinkAnalysis => {
       url = 'https://' + url;
     }
     parsedUrl = new URL(url);
+    
+    // Additional validation: check if domain has valid TLD
+    const domain = parsedUrl.hostname;
+    const parts = domain.split('.');
+    if (parts.length < 2 || parts[parts.length - 1].length < 2) {
+      throw new Error('Invalid domain');
+    }
   } catch {
     return {
       url,
       isValid: false,
       riskLevel: 'dangerous',
       score: 0,
-      threats: ['Invalid URL format'],
-      recommendations: ['Please enter a valid URL'],
+      threats: ['Not a valid link - invalid URL format or domain structure'],
+      recommendations: ['Please enter a valid URL with a proper domain name'],
       details: {
         protocol: '',
         domain: '',
